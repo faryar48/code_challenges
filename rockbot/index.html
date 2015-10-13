@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Backbone Blog</title>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/underscore.js"></script>
+  <script src="js/lib/backbone.js"></script>
+  <script src="js/models/nowPlaying.js"></script>
+  <script src="js/models/queue.js"></script>
+  <script src="js/models/topArtist.js"></script>
+  <script src="js/models/topUser.js"></script>
+  <script src="js/models/venue.js"></script>
+  <script src="js/collections/topUsers.js"></script>
+  <script src="js/collections/topArtists.js"></script>
+  <script src="js/collections/queues.js"></script>
+  <script src="js/collections/venues.js"></script>
+  <script src="js/views/leaderboardView.js"></script>
+  <script src="js/views/nowPlayingView.js"></script>
+  <script src="js/router/appRouter.js"></script>
+  <script src="js/mini.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="box">
+    <div class="banner">mini rockbot</div>
+    <div id="main"></div>
+
+    <script id='nowPlayingView-template' type='text/x-template'>
+      <div class="now_playing">
+        <div class="now_playing_image"><img class="now_playing_image_img" src='<%= aNowPlaying.sArtwork %>' /></div>
+        <div class="now_playing_text">
+          <div class="artist"><%= aNowPlaying.sArtist %></div>
+          <div><%= aNowPlaying.sSong %></div>
+        </div>
+      </div>
+      <div class="queue">
+        <div class="header">Coming Up</div>
+        <% _.each(aQueue, function (queue) { %>
+        <div class="info">
+            <div class="info_song_artist">
+              <div class="artist"><%= queue.sArtist %></div>
+              <div><%= queue.sSong %></div>
+            </div>
+            <div class="info_vote"> + <%= queue.iLikes - queue.iDislikes %></div>
+        </div>
+        <% }); %>
+      </div>
+    </script>
+
+    <script id='leaderboardView-template' type='text/x-template'>
+      <div class="top">
+        <div class="header">Top DJs</div>
+        <% _.each(aTopUsers, function (topUser) { %>
+        <div class="info_leaderboard">
+            <div class="info_topuser">
+              <div class="leaderboard_text"><%= topUser.sUser %></div>
+              <div><img class="leaderboard_image" src='<%= topUser.sUserImage %>' /></div>
+            </div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="top">
+        <div class="header">Top Artists</div>
+        <% _.each(aTopArtists, function (topArtist) { %>
+        <div class="info_leaderboard">
+            <div class="info_topartist">
+              <div class="leaderboard_text"><%= topArtist.sArtist %></div>
+              <div><img class="leaderboard_image" src='<%= topArtist.sArtistImage %>' /></div>
+            </div>
+        </div>
+        <% }); %>
+      </div>
+    </script>
+
+    <div class="now_playing_tab tab"><a href="#">Now Playing</a></div>
+    <div class="leaderboard_tab tab"><a href="#leaderboard">Leaderboard</a></div>
+
+  </div>
+
+
+</body>
+</html>

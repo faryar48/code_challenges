@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<title>Teespring Take-home Test</title>
+
+<xmp theme="united" style="display:none;">
+# Which inks should we use to print a design onto a t-shirt?
+
+## You're given
+* a design, specifying how much of each color is required
+* an inventory of inks, each of which has a color and a cost per unit volume
+
+## Your goal
+Select an ink from the inventory for each of the colors in the design.
+
+Solutions will be evaluated on:
+
+* color accuracy
+* total cost of inks (the lower the better)
+
+## Files
+Your solution should be runnable on the command-line as: `which_inks`.
+
+### teeprint
+`teeprint` is a test harness program that will evaluate your solution.
+
+It can be run in three ways:
+
+* `teeprint verify` double-checks the program is running correctly on your machine: do this first
+* `teeprint practice` evaluates your solution with a simple scenario, and outputs detailed scoring information
+* `teeprint evaluate` evaluates your solution with the full set of randomised scenarios
+
+### inks.json
+`inks.json` describes the available inks. Each ink is an array consisting of its RGB value and its cost per unit volume, keyed on a unique id. E.g.:
+```
+{
+  "AB8172": ["85A059", 7.2],
+  "CC0188": ["131F9F", 5.5],
+  "JK1195": ["FFFFFF", 3.9],
+...
+```
+
+## Input and Output
+
+Information about the colors in the design will be supplied on STDIN; your solution should be output to STDOUT.
+
+### Input format
+Your solution will be invoked with input on STDIN representing a design.
+
+There is a line for each color in the design, consisting of two tab-separated values:
+```
+RGB	volume
+```
+
+`RGB` consists of a hex triplet, as in HTML and SVG; `volume` is a floating-point number representing how much of this color is required. E.g.:
+
+```
+90A14F	1.4
+1916A2	0.4
+FFFFFF	2
+```
+
+This example represents a design with three colors.  In order to print, the design requires 1.4 units of `90A14F`, 0.4 units of `1916A2`, and 2 units of `FFFFFF`.
+
+### Output format
+Your solution should produce output on STDOUT.
+
+Each line of output specifies the ink that should be used to print the color given in the corresponding line of input.
+
+The output lines are strings which uniquely identify an ink by its key in `inks.json`.
+
+Suppose your program received the input in the above example, and outputs this:
+
+```
+AB8172
+CC0188
+JK1195
+```
+
+This means:
+
+* use ink `AB8172` for color `90A14F`
+* use ink `CC0188` for color `1916A2`
+* use ink `JK1195` for color `FFFFFF`
+
+## Scoring
+For each design, `teeprint` checks two things:
+
+1. the disparity between the colors requested in the design, and the inks used in your solution
+1. the cost of the inks used in your solution
+
+The color disparity is calculated as the [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance) in RGB color space. The maximum allowable total disparity for each design is **330**.
+
+To verify there is a solution which has color disparity less than or equal to this limit, `teeprint` creates its own _reference solution_.
+
+* if your solution has color disparity greater than **330**, you score **-100** points for this design
+* otherwise, your score is how much cheaper than the _reference solution_ your selected inks are
+
+For example, the following is an example evaluation of three separate invocations with three different design inputs:
+
+```
+| Color Disparity | Cost of reference solution | Cost of your inks | Score |
++-----------------+----------------------------+-------------------+-------+
+| 200             | 150                        | 100               | 50    |
+| 610             | 72                         | 61                | -100  |
+| 110             | 43                         | 50                | 0     |
+```
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>
