@@ -1,0 +1,180 @@
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="storageManager.css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.js" ></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.js"></script>
+		<script type="text/javascript" src="storageManager.js" ></script>
+
+		<link href="prism/prism.css" rel="stylesheet" />
+		<script src="prism/prism.js"></script>
+		
+	</head>
+
+	<body>
+
+		<img src='walkme-icon.png' style='float: right; width: 50px; height: 50px;'/>
+		<h1>Welcome to WalkMe</h1>
+
+		<hr/>
+
+		<p>
+		This is the first part of an evaluation process used to determine if you are the person we want to add to our amazing team.<br/>
+		<br/>
+		In this part we will test your programming skills.<br/>
+		The task is in JavaScript, so if you are unfamiliar with it please take the time to study a little prior to starting the task.<br/>
+		</p>
+
+		<h3 style='text-decoration: underline;'>Background</h3>
+
+		<p>
+		1. <a href='http://www.w3schools.com/js/default.asp'>JavaScript</a> is the most common programming language used in browsers today.<br/>
+		2. Coding will be done in the file file storageManager.js using Sublime Text editor.<br/>
+		3. Instance creation and interface should be exactly as specified in the exercise.<br/>
+		4. You can use and test the code you developed using the <a href='https://developer.chrome.com/devtools#console'>Console tab avaiable in the F12 development tools</a>.<br/>
+		5. In the exercise you will need to work closely with the <a href='http://www.w3schools.com/html/html5_webstorage.asp'>localStorage</a>. You can see it's content in the <a href='https://developer.chrome.com/devtools#inspecting-storage'>Resources tab avaiable in the F12 development tools</a>.<br/>
+		6. <a href='http://www.w3schools.com/js/js_datatypes.asp'>Data types</a> saved in the exercise must be returned as the exact same type.<br/>
+		7. We recommand doing the exercise in stages, write one function at a time, test it and then continue.<br/>
+		8. You have free access to the internet, use it as much as you like.<br/>
+		9. If you get stuck, at any stage, feel free to call us for assistance.<br/>
+
+		</p>
+
+		<h4 style='text-decoration: underline;'>The Exercise</h3>
+		
+		<p>
+			In this task you need to implement a storage manager library that allows a user to store and retrieve local data persistently (also after page refresh).</br>
+			Data will be managed inside using localStorage.</br>
+			You have 45 (60 if you have no JS background) minutes until the first review. You will then have 30 (45 if you have no JS background) more minutes to fix any problems discovered.</br>
+			The interface of the library must include the following methods: </br>
+
+			<h2>Global scope</h2>
+
+			The following function need to be defined on the global window scope
+
+			<ul class='interface'>
+
+				<li>
+					<div class='iMethod'>getStorageManager()</div>
+					<span class='methodDescription'> 
+						Creates an instances of the storage manager.
+					</span>
+					<span class="examples">
+						<h5>Examples: </h5>
+
+<pre><code class="language-javascript">
+/* Creates a local storage instance - this is what you need to implement in this exercise */
+storageManager = getStorageManager();
+</code></pre>
+						
+						<span class="explain"></span>
+					</span>
+				</li>
+			</ul>
+
+			<h2>Storage manager class</h2>
+
+			The following functions need to be defined in the storage manager class
+
+			<ul class='interface'>
+				<li>
+					<div class='iMethod'>set( <i> key , value, expiry</i> )</div>
+					<span class='methodDescription'> 
+						Sets the given <i>value</i> under the given <i>key</i> for given <i>expiry</i> seconds.
+					</span>
+					<span class="examples">
+						<h5>Examples: </h5>
+
+<pre><code class="language-javascript">
+/* Sets the value 7 under the key 'clicksCounter' for 60 seconds. */
+storageManager.set('clicksCounter', 7, 60);
+</code></pre>
+<pre><code class="language-javascript">
+/* Stores the object referenced by 'message' under the key 'curMsg' for 24 hours. */
+var message = {'msg' : 'hello world!'};
+storageManager.set('currMsg', message, 60*60*24);
+</code></pre>
+						
+						<span class="explain"></span>
+					</span>
+				</li>
+				
+				<li>
+					<div class='iMethod'>get( <i> key </i> )</div>
+					<span class='methodDescription'> 
+						Returns the value stored under the given key. Returns undefined if it doesn't exist.
+					</span>
+					<span class="examples">
+						<h5>Examples: </h5>
+<pre><code class="language-javascript">
+/* Will output to the console the value that was stored under the 'clicksCounter' key (if it isn't expired). */
+var numOfClicks = storageManager.get('clicksCounter');
+console.log(numOfClicks);
+</code></pre>
+					</span>
+				</li>
+				
+				<li>
+					<div class='iMethod'>remove( <i> key </i> )</div>
+					<span class='methodDescription'> 
+						Removes the value that is stored under the given <i>key</i>
+					</span>
+					<span class="examples">
+						<h5>Examples: </h5>
+<pre><code class="language-javascript">
+/* Will output true to the console. */
+storageManager.remove('clicksCounter');
+var numOfClicks = storageManager.get('clicksCounter');
+console.log(numOfClicks===undefined);
+</code></pre>
+					</span>
+				</li>
+
+				<li>
+					<div class='iMethod'>setProperty( <i> key , property, value, expiry </i> )</div>
+					<span class='methodDescription'>
+						Depends what is stored under the given <i>key</i>:<br/>
+						In case it is an object - add the given <i>property</i> with the given <i>value</i> to it. Expiry is updated to the given <i>expiry</i> value.<br/>
+						In case nothing is stored - create an object with the given <i>property</i> and the <i>value</i> to it. Expiry is updated to the given <i>expiry</i> value.<br/>
+						In case it is not an object - throw an exception.<br/>
+						In case it is an array - no need to handle this case<br/>
+					</span>
+					<span class="examples">
+						<h5>Examples: </h5>
+
+<pre><code class="language-javascript">
+/* Example 1 : Object was already stored under the given key */
+
+/* Saves an object under the key 'key1' with the attribute 'attr1' and the value 'value1'. Will be stored for 24 hours. */
+storageManager.set('key1', {'attr1' : 'value1'}, 60*60*24); 
+
+/* Adds the property 'attr2' with the value 54 to the object stored under the key 'key1'. Will update expiry to 24 hours. */
+storageManager.setProperty('key1', 'attr2', 54, 60*60*24);
+
+storageManager.get('key1'); // Will return: { 'attr1' : 'value1', 'attr2' : 54 }
+</code></pre>
+<pre><code class="language-javascript">
+/* Example 2 : Nothing was stored under the given key */
+
+/* Saves an object under the key 'key2' with the property 'attr3' and the value 13. Will be stored for 24 hours. */
+storageManager.setProperty('key2', 'attr3', 13, 60*60*24);
+
+storageManager.get('key2'); // Will return: { 'attr3' : 13 }
+</code></pre>
+<pre><code class="language-javascript">
+/* Example 3 : Non object was already stored under the given key (i.e. string, int ...) */
+
+/* Saves the string 'my string' under the key 'key3'. Will be stored for 24 hours. */
+storageManager.set('key3', 'my string', 60*60*24); 
+
+/* Adds the property 'attr4' with the value 37 to the object stored under the key 'key3'. Will cause an exception */
+storageManager.setProperty('key3', 'attr4', 37, 60*60*24); // An exception is thrown
+</code></pre>
+					</span>
+				</li>
+			</ul>
+		</p>
+		<br/><br/><br/><br/><br/>
+	</body>
+</html>
