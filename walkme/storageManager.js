@@ -48,11 +48,13 @@ function getStorageManager ()  {
 }
 
 getStorageManager.prototype.set = function (key, value, expiry) {
-  var seconds = new Date().getTime() / 1000
-  var key = {'property': value, expiration: expiry, currentTime: seconds}
-  localStorage.setItem('key', JSON.stringify(key))
+  var expiryTimeStamp = Date.now() + (expiry * 1000)
+  var valueTuple = {'expiration': expiryTimeStamp, 'value': value}
+  localStorage.setItem(key, JSON.stringify(valueTuple))
 }
 
+
+// work on this
 getStorageManager.prototype.get = function (key) {
   var retrievedObject = localStorage.getItem(key)
   var parsedKey = JSON.parse(retrievedObject)
